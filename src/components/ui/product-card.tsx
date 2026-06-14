@@ -49,13 +49,11 @@ interface ProductCardProps {
   index?: number;
   showStockBar?: boolean;
   flashMode?: boolean;
-  isFeatured?: boolean;
 }
 
 export function ProductCard({
   product,
   index = 0,
-  isFeatured = false,
 }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
   const [hovered, setHovered] = useState(false);
@@ -89,11 +87,9 @@ export function ProductCard({
       transition={{ delay: index * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative overflow-hidden rounded-[20px]"
+      className="relative h-[620px] overflow-hidden rounded-[20px]"
       style={{
         background: theme.bg,
-        height: isFeatured ? "680px" : "620px",
-        transition: "height 300ms cubic-bezier(0.22,1,0.36,1)",
       }}
     >
       <div
@@ -109,7 +105,7 @@ export function ProductCard({
             </p>
           )}
           <h3
-            className="font-display text-[clamp(28px,3.5vw,48px)] font-black leading-none tracking-tight text-cream"
+            className="line-clamp-3 font-display text-[clamp(24px,3vw,40px)] font-black leading-tight text-cream"
             style={{
               transition: "transform 300ms ease",
               transform: hovered ? "translateY(-8px)" : "translateY(0)",
@@ -178,7 +174,7 @@ export function ProductCard({
 
           <Link
             href={`/product/${product.slug}`}
-            className="relative z-[5] block"
+            className="relative z-[5] block w-[min(100%,280px)] shrink-0"
             style={{
               transform: hovered ? "translateY(-8px) scale(1.03)" : "translateY(0) scale(1)",
               transition: hovered
@@ -191,7 +187,12 @@ export function ProductCard({
               category={product.category}
               playerSlug={product.playerSlug}
               playerName={product.player}
-              className="!h-[220px] !w-[220px] !border-0 !bg-transparent"
+              imageSrc={product.images[0]}
+              flashSale={product.flashSale}
+              badge={product.flashSale ? "SALE" : undefined}
+              badgeVariant="sale"
+              discount={product.flashDiscount ? `${product.flashDiscount}% OFF` : undefined}
+              className="!h-[240px] !w-full !border-0 !bg-black/20 md:!h-[260px]"
             />
           </Link>
         </div>

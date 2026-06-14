@@ -19,7 +19,8 @@ export default function LoginPage() {
     e.preventDefault();
     const success = login(email, password);
     if (success) {
-      router.push("/account");
+      const user = useAuthStore.getState().user;
+      router.push(user?.role === "admin" ? "/admin" : "/account");
     } else {
       setError("Invalid email or password. Try fan@cricketverse.in / Cricket@123");
     }

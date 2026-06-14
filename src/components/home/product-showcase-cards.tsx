@@ -58,7 +58,7 @@ export function ProductShowcaseCards() {
           <span className="pill-label text-xs">• SHOP THE LINEUP •</span>
         </p>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-3">
           {products.map((product, i) => {
             const style = cardStyles[i];
             const titleLines = splitTitle(product.name);
@@ -75,10 +75,10 @@ export function ProductShowcaseCards() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 whileHover={{ y: -6 }}
-                className="rounded-2xl border-[3px] border-[#0A0700] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+                className="flex h-[620px] flex-col rounded-2xl border-[3px] border-[#0A0700] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
                 style={{ background: style.bg }}
               >
-                <div className="flex min-h-[560px] flex-col rounded-xl border-2 border-dashed border-cream/70 p-5 md:min-h-[600px]">
+                <div className="flex h-full flex-col rounded-xl border-2 border-dashed border-cream/70 p-5">
                   {/* Title block */}
                   <div className="text-center">
                     {titleLines.map((line) => (
@@ -112,12 +112,13 @@ export function ProductShowcaseCards() {
                     <motion.div
                       animate={{ y: [0, -8, 0] }}
                       transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                      className="relative z-10 w-[72%] max-w-[200px] overflow-hidden border-2 border-cream/25 shadow-2xl"
+                      className="relative z-10 w-[min(100%,240px)] shrink-0 overflow-hidden rounded-xl"
                     >
                       <ProductVisual
                         category={product.category}
                         playerSlug={product.playerSlug}
                         playerName={product.player}
+                        imageSrc={product.images[0]}
                         className="!h-[200px] md:!h-[220px]"
                       />
                     </motion.div>

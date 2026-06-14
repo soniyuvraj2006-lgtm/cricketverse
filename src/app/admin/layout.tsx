@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { AdminTopBar } from "@/components/admin/admin-top-bar";
+import { useAuthStore } from "@/stores/auth-store";
 
 const navSections = [
   {
@@ -57,6 +59,24 @@ const navSections = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { isAuthenticated, user } = useAuthStore();
+  const isLoginPage = pathname === "/admin/login";
+
+  useEffect(() => {
+    if (isLoginPage) return;
+    if (!isAuthenticated || user?.role !== "admin") {
+      router.replace("/admin/login");
+    }
+  }, [isAuthenticated, user, isLoginPage, router]);
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  if (!isAuthenticated || user?.role !== "admin") {
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen bg-[#0A0C12] text-[#F1F5F9]">

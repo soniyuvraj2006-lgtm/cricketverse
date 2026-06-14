@@ -56,24 +56,25 @@ export function LogoMark({ className = "w-10 h-10" }: { className?: string }) {
 }
 
 export function ProductVisualHero({ type, className = "" }: { type: "jersey" | "card" | "poster" | "magnet" | "collectible"; className?: string }) {
-  const configs = {
-    jersey: { bg: "#003B7E", label: "18", sub: "JERSEY" },
-    card: { bg: "#B8860B", label: "MSD", sub: "STEEL CARD" },
-    poster: { bg: "#8B1A1A", label: "11", sub: "POSTER" },
-    magnet: { bg: "#003B7E", label: "45", sub: "MAGNET" },
-    collectible: { bg: "#C8A84B", label: "10", sub: "LEGEND" },
+  const images: Record<typeof type, string> = {
+    jersey: "/images/products/jersey.png",
+    card: "/images/products/steel-card.png",
+    poster: "/images/products/poster.png",
+    magnet: "/images/products/fridge-magnet.png",
+    collectible: "/images/products/collectible.png",
   };
-  const c = configs[type];
+
   return (
-    <div className={`relative flex flex-col items-center justify-end ${className}`} style={{ height: "65vh", minHeight: 420 }}>
-      <div
-        className="relative z-10 flex w-[280px] flex-col items-center justify-center rounded-2xl border-2 border-cream/20 shadow-2xl md:w-[340px]"
-        style={{ height: "55vh", minHeight: 360, background: `linear-gradient(160deg, ${c.bg}, ${c.bg}cc)` }}
-      >
-        <span className="mb-2 font-mono text-[10px] tracking-[0.3em] text-cream/60">{c.sub}</span>
-        <span className="font-display text-[120px] leading-none text-cream/90 md:text-[160px]">{c.label}</span>
-        <div className="mt-4 h-1 w-24 bg-cream/30" />
-      </div>
+    <div
+      className={`relative flex items-center justify-center ${className}`}
+      style={{ height: "65vh", minHeight: 420 }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={images[type]}
+        alt=""
+        className="max-h-full max-w-[min(90vw,420px)] object-contain drop-shadow-[0_32px_64px_rgba(0,0,0,0.55)]"
+      />
     </div>
   );
 }

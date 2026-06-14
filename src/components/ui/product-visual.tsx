@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { Category } from "@/lib/types";
+import { CATEGORY_PRODUCT_IMAGE } from "@/lib/images";
 import { playerCircleData } from "@/lib/data/player-circles";
 
 const playerNumbers: Record<string, string> = Object.fromEntries(
@@ -59,6 +60,7 @@ interface ProductVisualProps {
   discount?: string;
   flashSale?: boolean;
   className?: string;
+  imageSrc?: string;
 }
 
 export function ProductVisual({
@@ -70,8 +72,11 @@ export function ProductVisual({
   discount,
   flashSale,
   className = "",
+  imageSrc,
 }: ProductVisualProps) {
   const config = categoryVisualConfig[category] ?? categoryVisualConfig.jerseys;
+  const photoSrc = imageSrc ?? CATEGORY_PRODUCT_IMAGE[category];
+  const hasPhoto = Boolean(photoSrc?.startsWith("/images/products/"));
   const initials = playerName
     ?.split(" ")
     .map((w) => w[0])
@@ -89,34 +94,52 @@ export function ProductVisual({
   return (
     <div
       className={`group/visual relative h-[220px] overflow-hidden ${className}`}
-      style={{ background: config.gradient }}
+      style={{ background: hasPhoto ? "rgba(0,0,0,0.15)" : config.gradient }}
     >
-      <div className="absolute inset-0" dangerouslySetInnerHTML={{ __html: config.backgroundSVG }} aria-hidden />
+      {!hasPhoto && (
+        <div className="absolute inset-0" dangerouslySetInnerHTML={{ __html: config.backgroundSVG }} aria-hidden />
+      )}
 
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2"
-        style={{
-          width: 160,
-          height: 80,
-          background: `radial-gradient(ellipse, ${config.accentColor}18 0%, transparent 70%)`,
-          filter: "blur(20px)",
-        }}
-        aria-hidden
-      />
+      {!hasPhoto && (
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2"
+          style={{
+            width: 160,
+            height: 80,
+            background: `radial-gradient(ellipse, ${config.accentColor}18 0%, transparent 70%)`,
+            filter: "blur(20px)",
+          }}
+          aria-hidden
+        />
+      )}
 
-      <span
-        className="pointer-events-none absolute select-none font-display leading-none text-white/[0.04]"
-        style={{ fontSize: 130, right: -10, bottom: -15 }}
-        aria-hidden
-      >
-        {jerseyNum}
-      </span>
+      {!hasPhoto && (
+        <>
+          <span
+            className="pointer-events-none absolute select-none font-display leading-none text-white/[0.04]"
+            style={{ fontSize: 130, right: -10, bottom: -15 }}
+            aria-hidden
+          >
+            {jerseyNum}
+          </span>
+          <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+            <span className="font-display text-[48px] text-white/[0.07]">{config.symbol}</span>
+          </div>
+        </>
+      )}
 
-      <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
-        <span className="font-display text-[48px] text-white/[0.07]">{config.symbol}</span>
-      </div>
+      {hasPhoto && (
+        <div className="absolute inset-0 flex items-center justify-center p-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photoSrc}
+            alt={playerName ? `${playerName} product` : "Product"}
+            className="h-full w-full object-contain drop-shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
+          />
+        </div>
+      )}
 
-      {initials && (
+      {!hasPhoto && initials && (
         <div
           className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full font-body text-[11px] font-bold backdrop-blur-md"
           style={{ border: `1.5px solid ${config.accentColor}55`, background: "rgba(0,0,0,0.45)", color: config.accentColor }}
@@ -125,7 +148,16 @@ export function ProductVisual({
         </div>
       )}
 
-      <div className="absolute right-3 top-3 flex flex-col items-end gap-1">
+      {hasPhoto && initials && (
+        <div
+          className="absolute left-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full font-body text-[11px] font-bold backdrop-blur-md"
+          style={{ border: `1.5px solid ${config.accentColor}55`, background: "rgba(0,0,0,0.45)", color: config.accentColor }}
+        >
+          {initials}
+        </div>
+      )}
+
+      <div className="absolute right-3 top-3 z-10 flex flex-col items-end gap-1">
         {badge && (
           <span className={`rounded-sm px-2 py-0.5 font-mono text-[9px] font-bold tracking-widest ${badgeColors[badgeVariant]}`}>
             {badge}

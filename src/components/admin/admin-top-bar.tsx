@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth-store";
 
 export function AdminTopBar() {
+  const router = useRouter();
   const [time, setTime] = useState("");
+  const logout = useAuthStore((s) => s.logout);
 
   useEffect(() => {
     const tick = () => {
@@ -48,9 +51,16 @@ export function AdminTopBar() {
         A
       </div>
 
-      <Link href="/" className="font-body text-[13px] text-[#94A3B8] transition-colors hover:text-[#F1F5F9]">
+      <button
+        type="button"
+        onClick={() => {
+          logout();
+          router.push("/admin/login");
+        }}
+        className="border-none bg-transparent font-body text-[13px] text-[#94A3B8] transition-colors hover:text-[#F1F5F9]"
+      >
         Logout
-      </Link>
+      </button>
     </header>
   );
 }

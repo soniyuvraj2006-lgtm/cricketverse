@@ -75,7 +75,7 @@ function generateProducts(): Product[] {
       const slug = slugify(name);
       const price = meta.basePrice + (i % 5) * 100;
       const mrp = Math.round(price * (1.3 + (i % 3) * 0.1));
-      const isFlash = category === "jerseys" && i < 4;
+      const isFlash = i < (category === "jerseys" ? 2 : 1);
 
       products.push({
         id: `p${id}`,
@@ -97,7 +97,7 @@ function generateProducts(): Product[] {
         stockCount: i === 7 ? 0 : 3 + (i % 20),
         sizes: meta.hasSizes ? sizes : undefined,
         colors: meta.hasSizes ? colors.slice(0, 3) : undefined,
-        images: getProductImages(category, i),
+        images: getProductImages(category),
         tags: [player.name, team.shortName, meta.label, productType],
         trending: i < 8,
         featured: i % 5 === 0,

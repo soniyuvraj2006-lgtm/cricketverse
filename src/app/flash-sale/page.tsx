@@ -35,12 +35,22 @@ function CountdownTimer() {
 
 export default function FlashSalePage() {
   const products = getFlashSaleProducts();
-  const tabs = ["All", "Jerseys", "Cards", "Posters"];
+  const tabs = ["All", "Jerseys", "Cards", "Magnets", "Posters", "Collectibles"];
   const [activeTab, setActiveTab] = useState("All");
 
-  const filtered = activeTab === "All"
-    ? products
-    : products.filter((p) => p.category.includes(activeTab.toLowerCase().replace("cards", "steel-cards")));
+  const tabCategoryMap: Record<string, string | null> = {
+    All: null,
+    Jerseys: "jerseys",
+    Cards: "steel-cards",
+    Magnets: "fridge-magnets",
+    Posters: "posters",
+    Collectibles: "collectibles",
+  };
+
+  const filtered =
+    activeTab === "All"
+      ? products
+      : products.filter((p) => p.category === tabCategoryMap[activeTab]);
 
   return (
     <div className="min-h-screen bg-[#0A0700]">
@@ -62,7 +72,7 @@ export default function FlashSalePage() {
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 xl:gap-5">
             {filtered.map((p, i) => (
               <div key={p.id} className="relative">
                 <ProductCard product={p} index={i} flashMode />

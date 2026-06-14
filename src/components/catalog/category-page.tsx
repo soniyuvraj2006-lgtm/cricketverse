@@ -164,14 +164,9 @@ export function CategoryPageClient({ category, products: allProducts }: Category
         </select>
       </div>
 
-      <div className="grid grid-cols-1 gap-[2px] p-[2px] md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 px-6 pb-8 md:grid-cols-2 md:px-[60px] xl:grid-cols-3 xl:gap-5">
         {visible.map((product, i) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            index={i}
-            isFeatured={i % 3 === 1 && visible.length >= 3}
-          />
+          <ProductCard key={product.id} product={product} index={i} />
         ))}
       </div>
 

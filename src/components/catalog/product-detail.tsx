@@ -74,6 +74,7 @@ export function ProductDetailClient({ product }: ProductDetailProps) {
               category={product.category}
               playerSlug={product.playerSlug}
               playerName={product.player}
+              imageSrc={product.images[0]}
               badge={product.flashSale ? "SALE" : product.trending ? "TRENDING" : undefined}
               badgeVariant={product.flashSale ? "sale" : "gold"}
               discount={discount > 0 ? `${discount}% OFF` : undefined}
