@@ -3,25 +3,163 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-void: #0a0700;
+  --bg-deep: #111008;
+  --bg-surface: #111008;
+  --cream: #e8dcc8;
+  --gold: #c8a84b;
+  --india-blue: #003b7e;
+  --cricket-red: #c0392b;
+  --field-green: #1a4a2a;
+  --card-gold: #b8860b;
+  --card-blue: #1b3a6b;
+  --card-red: #8b1a1a;
+
+  --text-primary: #e8dcc8;
+  --text-secondary: rgba(232, 220, 200, 0.65);
+  --text-muted: rgba(232, 220, 200, 0.4);
+
+  --border-subtle: rgba(232, 220, 200, 0.15);
+  --border-dim: rgba(255, 255, 255, 0.08);
+
+  --section-gap: 120px;
+  --card-radius: 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply font-body antialiased;
+  background: var(--bg-void);
+  color: var(--text-primary);
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display), "Barlow Condensed", sans-serif;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .font-body {
+    font-family: var(--font-body), "DM Sans", sans-serif;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono), "JetBrains Mono", monospace;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 2px var(--cream);
+    color: transparent;
+  }
+
+  .text-outline-lg {
+    -webkit-text-stroke: 3px var(--cream);
+    color: transparent;
+  }
+
+  .pill-label {
+    @apply inline-flex items-center gap-2 rounded-full border border-[#0A0700] bg-cream px-5 py-2 font-display text-sm font-bold tracking-wide text-[#0A0700];
+  }
+
+  .pill-btn {
+    @apply rounded-full border-2 border-cream px-6 py-2 font-display text-sm font-bold uppercase tracking-wider text-cream transition-all duration-200 hover:bg-cream hover:text-[#0A0700];
+  }
+
+  .pill-btn-filled {
+    @apply rounded-full bg-cream px-6 py-2 font-display text-sm font-bold uppercase tracking-wider text-[#0A0700] transition-all duration-200 hover:bg-gold;
+  }
+
+  .nav-glass {
+    @apply border-b border-white/[0.06] bg-[rgba(10,7,0,0.85)] backdrop-blur-[20px];
+  }
+
+  .section-padding {
+    @apply px-4 py-20 md:px-8 lg:px-16;
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap);
+  }
+
+  .input-field {
+    @apply w-full rounded-md border bg-transparent px-4 py-3 font-body text-sm outline-none transition-colors;
+    border-color: var(--border-dim);
+    color: var(--text-primary);
+  }
+
+  .input-field:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(200, 168, 75, 0.15);
+  }
+
+  .glass-card {
+    @apply border border-cream/15 bg-[#111008];
+  }
+
+  .surface-card {
+    @apply border border-cream/15 bg-[#111008];
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(232, 220, 200, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bucks-panel {
+    @apply border border-cream/15 bg-[#111008] p-6;
+  }
+
+  .bucks-divider {
+    @apply border-t border-cream/10;
+  }
+
+  .bucks-dot-bg {
+    background-color: #0a0700;
+    background-image: radial-gradient(rgba(232, 220, 200, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-arrow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
